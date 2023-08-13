@@ -1,7 +1,5 @@
 package task;
-import java.io.PrintWriter;
 import java.sql.*;
-import java.text.ParseException;
 import java.util.Scanner;
 
 public class InternshipDBConsole {
@@ -82,7 +80,7 @@ public class InternshipDBConsole {
         System.out.println("Inserted Intern Application Successfully!");
     }
 
-    public static void listInterns(Scanner sc, Connection con) throws SQLException {
+    public static void listInterns(Connection con) throws SQLException {
         System.out.println("List of all interns:");
         Statement stmt=con.createStatement();
         Statement stmt2=con.createStatement();
@@ -485,7 +483,7 @@ public class InternshipDBConsole {
 
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args) {
 
         try{
             Connection con=DriverManager.getConnection(
@@ -523,7 +521,7 @@ public class InternshipDBConsole {
 
                 switch (command){
                     case "1": addIntern(sc, con); break;
-                    case "2": listInterns(sc, con); break;
+                    case "2": listInterns(con); break;
                     case "3": listInternsUni(sc, con); break;
                     case "4": listInternsTop(sc, con);break;
                     case "5": deleteIntern(sc, con); break;
