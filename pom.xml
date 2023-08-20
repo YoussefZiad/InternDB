@@ -14,4 +14,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>mysql-connector-j-8.1.0</groupId>
+            <artifactId>mysql-connector-j-8.1.0</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}\src\lib\mysql-connector-j-8.1.0.jar</systemPath>
+        </dependency>
+    </dependencies>
+
 </project>
