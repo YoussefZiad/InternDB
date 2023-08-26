@@ -56,11 +56,15 @@ public class DBLayer {
     }
 
     public void addInternToDB(Intern intern) throws SQLException {
-
+        Session session = startSession();
+        session.save(intern);
+        commitTransaction(session);
     }
 
     public void addProjectToDB(Project project) throws SQLException {
-
+        Session session = startSession();
+        session.save(project);
+        commitTransaction(session);
     }
 
     public void deleteInternFromDB(int id) throws SQLException {
