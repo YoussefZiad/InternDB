@@ -23,6 +23,7 @@ public class InternUILayer {
     public void addIntern() throws SQLException {
         System.out.println("Adding a new intern application to the database...");
         Intern intern = scanInternDetails();
+
         service.addIntern(intern);
         if(intern==null)
             return;

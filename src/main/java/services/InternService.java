@@ -22,7 +22,7 @@ public class InternService {
         db.addInternToDB(intern);
     }
 
-    public void deleteIntern(int id) throws SQLException{
+    public void deleteIntern(int id) throws SQLException {
         db.deleteInternFromDB(id);
     }
 

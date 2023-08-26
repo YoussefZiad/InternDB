@@ -1,16 +1,22 @@
 package classes;
 
+import javax.persistence.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Entity
+@Table(name = "intern")
 public class Intern {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private double gpa;
     private String cvURL;
     private String university;
     private String desiredTrack;
+    @Column(name = "isAccepted")
     private boolean accepted;
 
     @Override
@@ -22,11 +28,6 @@ public class Intern {
                 ", university='" + university + '\'' +
                 ", desiredTrack='" + desiredTrack + '\'' +
                 '}';
-    }
-
-    public static Intern mapToIntern(ResultSet rs) throws SQLException {
-        return new Intern(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4),
-                rs.getString(5), rs.getString(6), rs.getBoolean(7));
     }
 
     public String getName() {
@@ -51,6 +52,11 @@ public class Intern {
 
     public boolean isAccepted() {
         return accepted;
+    }
+
+
+    public Intern(){
+
     }
 
     public Intern(int id, String name, double gpa, String cvURL, String university, String desiredTrack, boolean accepted) {
