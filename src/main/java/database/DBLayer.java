@@ -71,6 +71,7 @@ public class DBLayer {
         Session session = startSession();
         Query query = session.createQuery("delete from Intern where id = :id");
         query.setParameter("id", id);
+        query.executeUpdate();
         commitTransaction(session);
     }
 
