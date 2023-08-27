@@ -56,11 +56,15 @@ public class DBLayer {
     }
 
     public void addInternToDB(Intern intern) throws SQLException {
-
+        Session session = startSession();
+        session.save(intern);
+        commitTransaction(session);
     }
 
     public void addProjectToDB(Project project) throws SQLException {
-
+        Session session = startSession();
+        session.save(project);
+        commitTransaction(session);
     }
 
     public void deleteInternFromDB(int id) throws SQLException {
@@ -74,32 +78,62 @@ public class DBLayer {
 
     }
 
-    public ResultSet getAllInterns() throws SQLException {
-        return null;
+    public Query getAllInterns() throws SQLException {
+        Session session = startSession();
+        Query query = session.createQuery("select id, name, desiredTrack from Intern");
+        return query;
     }
 
-    public ResultSet getProjectsByInternID(int id) throws SQLException{
-        return null;
+    public Query getProjectsByInternID(int id) throws SQLException{
+        Session session = startSession();
+        Query query = session.createQuery("select id, name, description from Project where intern_id = :id");
+        query.setParameter("id",id);
+        return query;
     }
 
-    public ResultSet getInternsByUni(String university) throws SQLException{
-        return null;
+    public Query getInternsByUni(String university) throws SQLException{
+        Session session = startSession();
+        Query query = session.createQuery("select id, name, desiredTrack from Intern where university = :uni order by gpa desc");
+        query.setParameter("uni", university);
+        return query;
     }
 
-    public ResultSet getInternsByUniAndTrack(String university, String desiredTrack) throws SQLException {
-        return null;
+    public Query getInternsByUniAndTrack(String university, String desiredTrack) throws SQLException {
+        Session session = startSession();
+        Query query = session.createQuery("select id, name, desiredTrack from Intern where university = :uni and desiredTrack = :track and gpa > 3.0");
+        query.setParameter("uni", university);
+        query.setParameter("track", desiredTrack);
+        return query;
     }
 
     public HashMap<String, Integer> getInternColumnBoundaries() throws SQLException {
-        return null;
+        HashMap<String, Integer> bounds = new HashMap<String, Integer>();
+        Query q = startSession().createQuery("SELECT MAX(id), MAX(LENGTH(name)), MAX(LENGTH(cvURL)), MAX(LENGTH(university)), MAX(LENGTH(desiredTrack)) FROM Intern");
+        Object[] result = (Object[]) q.uniqueResult();
+        bounds.put("ID",(Integer) result[0]);
+        bounds.put("Name",(Integer) result[1]);
+        bounds.put("GPA",1);
+        bounds.put("CV",(Integer) result[2]);
+        bounds.put("University",(Integer) result[3]);
+        bounds.put("Track",(Integer) result[4]);
+        return bounds;
     }
 
     public HashMap<String, Integer> getProjectColumnBoundaries() throws SQLException{
-        return null;
+        HashMap<String, Integer> bounds = new HashMap<String, Integer>();
+        Query q = startSession().createQuery("SELECT MAX(id), MAX(LENGTH(name)), MAX(LENGTH(description)) FROM Project");
+        Object[] result = (Object[]) q.uniqueResult();
+        bounds.put("ID",(Integer) result[0]);
+        bounds.put("Name",(Integer) result[1]);
+        bounds.put("Description",(Integer) result[2]);
+        return bounds;
     }
 
-    public ResultSet getInternByID(int id) throws SQLException{
-        return null;
+    public Query getInternByID(int id) throws SQLException{
+        Session session = startSession();
+        Query query = session.createQuery("select id, name, gpa, cvURL, university, desiredTrack from Intern where id = :id");
+        query.setParameter("id",id);
+        return query;
     }
 
 

@@ -1,11 +1,13 @@
 package ui.util;
 
+import org.hibernate.query.Query;
 import ui.table.Column;
 import ui.table.Table;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class InterfacePrinter {
 
@@ -51,8 +53,8 @@ public class InterfacePrinter {
         }
         System.out.println();
         System.out.println(new String(new char[detailLength]).replace('\0','_'));
-        ResultSet rs = table.getResultSet();
-        if(rs == null){
+        Query q = table.getQuery();
+        if(q == null){
             System.out.print("| ");
             for(int i = 0; i < columns.size(); i++) {
                 Column c = columns.get(i);
@@ -64,21 +66,19 @@ public class InterfacePrinter {
             System.out.println();
         }
         else {
-            while (rs.next()) {
+            List<Object[]> list = q.list();
+            for(Object[] row: list) {
                 System.out.print("| ");
                 for (int i = 0; i < columns.size(); i++) {
                     Column c = columns.get(i);
+                    System.out.print(row[i]);
                     if (c.getColumnType().equals(Integer.class)) {
-                        System.out.print(rs.getInt(i + 1));
                         System.out.print(new String(new char[(int) (maxLengths[i] - Math.log10(i + 1) - 1)]).replace('\0', ' '));
                     } else if (c.getColumnType().equals(String.class)) {
-                        System.out.print(rs.getString(i + 1));
-                        System.out.print(maxLengths[i] > rs.getString(i + 1).length() ? new String(new char[maxLengths[i] - rs.getString(i + 1).length()]).replace('\0', ' ') : "");
+                        System.out.print(maxLengths[i] > ((String) row[i]).length() ? new String(new char[maxLengths[i] - ((String) row[i]).length()]).replace('\0', ' ') : "");
                     } else if (c.getColumnType().equals(Double.class)) {
-                        System.out.print(rs.getDouble(i + 1));
                         System.out.print(new String(new char[(int) (maxLengths[i] - Math.log10(i) - 3)]).replace('\0', ' '));
                     }
-
                     System.out.print(" | ");
                 }
                 System.out.println();
@@ -86,32 +86,5 @@ public class InterfacePrinter {
         }
         System.out.println(new String(new char[detailLength]).replace('\0','_'));
     }
-
-//    public static void printTable(String[] contents, String[] tableHead, int[] columnLengths, Class[] columnTypes) throws SQLException {
-//        int detailLength = 0;
-//        int[] maxLengths = new int[tableHead.length];
-//        for(int i = 0; i < tableHead.length; i++){
-//            maxLengths[i] = Math.max(tableHead[i].length(),columnLengths[i]);
-//            detailLength += maxLengths[i]+3;
-//        }
-//        System.out.println(new String(new char[detailLength]).replace('\0','_'));
-//        System.out.print("| ");
-//        for(int i = 0; i < tableHead.length; i++) {
-//            System.out.print(tableHead[i]);
-//            System.out.print((columnLengths[i]>tableHead[i].length()? new String(new char[columnLengths[i]-tableHead[i].length()]).replace('\0',' '):""));
-//            System.out.print(" | ");
-//        }
-//        System.out.println();
-//        System.out.println(new String(new char[detailLength]).replace('\0','_'));
-//        System.out.print("| ");
-//        for(int i = 0; i < tableHead.length; i++) {
-//
-//            System.out.print(contents[i]);
-//            System.out.print(maxLengths[i]>contents[i].length()? new String(new char[maxLengths[i]-contents[i].length()]).replace('\0',' '):"");
-//            System.out.print(" | ");
-//        }
-//        System.out.println();
-//        System.out.println(new String(new char[detailLength]).replace('\0','_'));
-//    }
 
 }
