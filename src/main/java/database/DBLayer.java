@@ -78,8 +78,9 @@ public class DBLayer {
     public void updateInternAcceptanceInDB(int id, boolean accept) throws SQLException {
         Session session = startSession();
         Query query = session.createQuery("update Intern set accepted = :accepted where id = :id");
-        query.setParameter("accepted",accept?1:0);
+        query.setParameter("accepted",accept);
         query.setParameter("id",id);
+        query.executeUpdate();
         commitTransaction(session);
     }
 
