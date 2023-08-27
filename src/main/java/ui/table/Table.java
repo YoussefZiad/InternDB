@@ -1,23 +1,25 @@
 package ui.table;
 
+import org.hibernate.query.Query;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Table {
 
     private ArrayList<Column> columns;
-    private ResultSet resultSet;
+    private Query query;
 
-    public Table(ArrayList<Column> columns, ResultSet resultSet) {
+    public Table(ArrayList<Column> columns, Query query) {
         this.columns = columns;
-        this.resultSet = resultSet;
+        this.query = query;
     }
 
     public ArrayList<Column> getColumns() {
         return columns;
     }
 
-    public ResultSet getResultSet() {
-        return resultSet;
+    public Query getQuery() {
+        return query;
     }
 }
