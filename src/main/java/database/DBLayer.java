@@ -64,7 +64,10 @@ public class DBLayer {
     }
 
     public void deleteInternFromDB(int id) throws SQLException {
-
+        Session session = startSession();
+        Query query = session.createQuery("delete from Intern where id = :id");
+        query.setParameter("id", id);
+        commitTransaction(session);
     }
 
     public void updateInternAcceptanceInDB(int id, boolean accept) throws SQLException {
