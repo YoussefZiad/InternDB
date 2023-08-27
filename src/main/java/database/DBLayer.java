@@ -83,7 +83,8 @@ public class DBLayer {
 
     public Query getProjectsByInternID(int id) throws SQLException{
         Session session = startSession();
-        Query query = session.createQuery("select id, name, description from Project");
+        Query query = session.createQuery("select id, name, description from Project where intern_id = :id");
+        query.setParameter("id",id);
         return query;
     }
 
